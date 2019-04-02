@@ -1,14 +1,29 @@
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  links: [Link!]!
+}
+
+type Link {
+  id: ID!
+  description: String!
+  url: String!
+  postedBy: User
+}
 type Query {
   info: String!
   feed: [Link!]!
   # Fetch a single link by its `id`
   link(id: ID!): Link
+  users: [User!]!
 }
-type Link {
-  id: ID!
-  description: String!
-  url: String!
-}
+
 type Mutation {
   post(url: String!, description: String!): Link!
   # Update a link
@@ -16,4 +31,6 @@ type Mutation {
 
   # Delete a link
   deleteLink(id: ID!): Link
+  signup(name: String!, email: String!, password: String!): AuthPayload
+  login(email: String!, password: String!): AuthPayload
 }
